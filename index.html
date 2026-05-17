@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#534AB7">
+<title>Стройка — Московский пр-т</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F5F4FF;color:#1a1a2e;min-height:100vh;padding-bottom:70px}
+.navbar{background:#534AB7;padding:12px 16px 14px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100}
+.app-logo{width:34px;height:34px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.navbar-title{font-size:15px;font-weight:600;color:#fff}
+.navbar-sub{font-size:11px;color:rgba(255,255,255,0.65)}
+.screen{display:none;padding:14px}
+.screen.active{display:block}
+.section-label{font-size:10px;font-weight:600;color:#534AB7;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;margin-top:16px}
+.section-label:first-child{margin-top:0}
+.status-card{background:#EEEDFE;border-radius:14px;padding:14px;margin-bottom:4px;border:1px solid #AFA9EC}
+.status-title{font-size:14px;font-weight:600;color:#26215C;margin-bottom:10px}
+.badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600;display:inline-block}
+.badge-purple{background:#534AB7;color:#fff}
+.badge-teal{background:#1D9E75;color:#fff}
+.badge-amber{background:#EF9F27;color:#fff}
+.badge-gray{background:#e0e0e0;color:#666}
+.phases{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.progress-label{display:flex;justify-content:space-between;font-size:11px;color:#534AB7;margin-bottom:4px;margin-top:8px}
+.progress-bar{height:6px;background:#CECBF6;border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;background:#534AB7;border-radius:4px;transition:width 0.8s ease}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
+.stat-card{background:#fff;border-radius:12px;padding:12px;border:1px solid #e8e8f0}
+.stat-label{font-size:10px;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.4px}
+.stat-value{font-size:22px;font-weight:600;color:#1a1a2e}
+.stat-sub{font-size:10px;color:#aaa;margin-top:2px}
+.stat-green{color:#0F6E56}
+.stat-red{color:#993C1D}
+.stat-purple{color:#534AB7}
+.work-item{background:#fff;border-radius:12px;padding:12px;margin-bottom:8px;border:1px solid #e8e8f0;border-left:3px solid #534AB7}
+.work-phase{font-size:10px;font-weight:600;color:#534AB7;margin-bottom:4px}
+.work-desc{font-size:13px;color:#1a1a2e;line-height:1.4}
+.work-meta{font-size:10px;color:#aaa;margin-top:4px}
+.expense-item{background:#fff;border-radius:12px;padding:12px;margin-bottom:8px;border:1px solid #e8e8f0;display:flex;justify-content:space-between;align-items:center}
+.expense-name{font-size:13px;color:#1a1a2e;font-weight:500}
+.expense-cat{font-size:10px;color:#aaa;margin-top:2px}
+.expense-amount{font-size:15px;font-weight:600;color:#26215C;white-space:nowrap;margin-left:8px}
+.bar-section{background:#fff;border-radius:12px;padding:14px;margin-bottom:8px;border:1px solid #e8e8f0}
+.bar-row{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px}
+.bar-row span:first-child{color:#666}
+.bar-row span:last-child{font-weight:600;color:#26215C}
+.bar-bg{height:5px;background:#f0f0f5;border-radius:4px;overflow:hidden;margin-bottom:10px}
+.bar-fill{height:100%;border-radius:4px}
+.btn-cmd{display:flex;align-items:center;gap:12px;padding:12px 14px;background:#EEEDFE;border-radius:12px;border:1px solid #AFA9EC;cursor:pointer;margin-bottom:8px;width:100%;text-align:left;text-decoration:none}
+.btn-cmd-icon{font-size:22px;width:36px;text-align:center;flex-shrink:0}
+.btn-cmd-title{font-size:13px;color:#26215C;font-weight:600}
+.btn-cmd-sub{font-size:10px;color:#7F77DD;margin-top:1px}
+.sys-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sys-btn{display:flex;align-items:center;gap:8px;padding:12px;border-radius:12px;border:1px solid #e8e8f0;cursor:pointer;background:#fff;text-decoration:none}
+.sys-btn-icon{font-size:20px}
+.sys-btn-name{font-size:13px;font-weight:600;color:#1a1a2e}
+.team-item{background:#fff;border-radius:12px;padding:12px;margin-bottom:8px;border:1px solid #e8e8f0;display:flex;align-items:center;justify-content:space-between}
+.avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0}
+.team-info{flex:1;margin-left:10px}
+.team-name{font-size:13px;font-weight:600;color:#1a1a2e}
+.team-role{font-size:10px;color:#aaa;margin-top:2px}
+.botbar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e8e8f0;display:grid;grid-template-columns:repeat(4,1fr);padding:8px 0 12px;z-index:100}
+.tab{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px}
+.tab-icon{font-size:22px}
+.tab span{font-size:9px;color:#aaa}
+.tab.active .tab-icon{filter:none}
+.tab.active span{color:#534AB7;font-weight:600}
+.loading{text-align:center;padding:40px 20px;color:#aaa;font-size:14px}
+.error-msg{background:#FCEBEB;border:1px solid #F09595;border-radius:12px;padding:14px;color:#A32D2D;font-size:13px;margin-bottom:10px}
+.budget-bar{background:#EEEDFE;border-radius:12px;padding:14px;margin-bottom:4px}
+.budget-nums{display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px}
+.budget-spent{font-weight:600;color:#534AB7}
+.budget-total{color:#aaa}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="app-logo">🏗️</div>
+  <div>
+    <div class="navbar-title">Московский пр-т 129/1</div>
+    <div class="navbar-sub" id="navbar-sub">Загрузка данных...</div>
+  </div>
+</div>
+
+<div id="screen-home" class="screen active">
+  <div id="home-content"><div class="loading">⏳ Загружаем данные с объекта...</div></div>
+</div>
+
+<div id="screen-expenses" class="screen">
+  <div id="expenses-content"><div class="loading">⏳ Загружаем расходы...</div></div>
+</div>
+
+<div id="screen-bot" class="screen">
+  <div class="section-label">Быстрые команды</div>
+  <a class="btn-cmd" href="https://t.me/prorab_cen_bot" target="_blank">
+    <span class="btn-cmd-icon">📦</span>
+    <div><div class="btn-cmd-title">Справочник материалов</div><div class="btn-cmd-sub">/инженер материалы [система]</div></div>
+  </a>
+  <a class="btn-cmd" href="https://t.me/prorab_cen_bot" target="_blank">
+    <span class="btn-cmd-icon">☐</span>
+    <div><div class="btn-cmd-title">Чек-лист этапа</div><div class="btn-cmd-sub">/инженер чек-лист [этап]</div></div>
+  </a>
+  <a class="btn-cmd" href="https://t.me/prorab_cen_bot" target="_blank">
+    <span class="btn-cmd-icon">🔍</span>
+    <div><div class="btn-cmd-title">Проверка соответствия</div><div class="btn-cmd-sub">/инженер [описание работы]</div></div>
+  </a>
+  <div class="section-label">По системам</div>
+  <div class="sys-grid">
+    <a class="sys-btn" href="https://t.me/prorab_cen_bot" target="_blank"><span class="sys-btn-icon">🔒</span><span class="sys-btn-name">СКУД</span></a>
+    <a class="sys-btn" href="https://t.me/prorab_cen_bot" target="_blank"><span class="sys-btn-icon">🔥</span><span class="sys-btn-name">СПС</span></a>
+    <a class="sys-btn" href="https://t.me/prorab_cen_bot" target="_blank"><span class="sys-btn-icon">📹</span><span class="sys-btn-name">ТСВ</span></a>
+    <a class="sys-btn" href="https://t.me/prorab_cen_bot" target="_blank"><span class="sys-btn-icon">🌐</span><span class="sys-btn-name">СКС</span></a>
+    <a class="sys-btn" href="https://t.me/prorab_cen_bot" target="_blank"><span class="sys-btn-icon">🔔</span><span class="sys-btn-name">СОТС</span></a>
+    <a class="sys-btn" href="https://t.me/prorab_cen_bot" target="_blank"><span class="sys-btn-icon">🎨</span><span class="sys-btn-name">Дизайн</span></a>
+  </div>
+</div>
+
+<div id="screen-team" class="screen">
+  <div class="section-label">Команда объекта</div>
+  <div class="team-item">
+    <div class="avatar" style="background:#EEEDFE;color:#3C3489">СГ</div>
+    <div class="team-info"><div class="team-name">Сергей</div><div class="team-role">Владелец · полный доступ</div></div>
+    <span class="badge badge-teal">онлайн</span>
+  </div>
+  <div class="team-item">
+    <div class="avatar" style="background:#E1F5EE;color:#085041">ВГ</div>
+    <div class="team-info"><div class="team-name">Владимир (прораб)</div><div class="team-role">Фото и отчёты</div></div>
+    <span class="badge badge-purple">активен</span>
+  </div>
+  <div class="team-item">
+    <div class="avatar" style="background:#FAEEDA;color:#633806">ИЧ</div>
+    <div class="team-info"><div class="team-name">Иван (монтажник)</div><div class="team-role">Только просмотр</div></div>
+    <span class="badge badge-gray">вчера</span>
+  </div>
+  <div class="team-item">
+    <div class="avatar" style="background:#E6F1FB;color:#0C447C">СБ</div>
+    <div class="team-info"><div class="team-name">Сбербанк (заказчик)</div><div class="team-role">Только дашборд</div></div>
+    <span class="badge badge-gray">3 дня назад</span>
+  </div>
+</div>
+
+<nav class="botbar">
+  <div class="tab active" id="tab-home" onclick="switchTab('home')">
+    <span class="tab-icon">🏠</span><span>Главная</span>
+  </div>
+  <div class="tab" id="tab-expenses" onclick="switchTab('expenses')">
+    <span class="tab-icon">💰</span><span>Расходы</span>
+  </div>
+  <div class="tab" id="tab-bot" onclick="switchTab('bot')">
+    <span class="tab-icon">🤖</span><span>Инженер</span>
+  </div>
+  <div class="tab" id="tab-team" onclick="switchTab('team')">
+    <span class="tab-icon">👥</span><span>Команда</span>
+  </div>
+</nav>
+
+<script>
+const API_URL = 'https://prorab.app.n8n.cloud/webhook/dashboard';
+let data = null;
+
+async function loadData() {
+  try {
+    const res = await fetch(API_URL);
+    if (!res.ok) throw new Error('Ошибка сервера: ' + res.status);
+    data = await res.json();
+    renderHome();
+    renderExpenses();
+    document.getElementById('navbar-sub').textContent = 'ВСП №' + data.project.vsp + ' · ' + data.project.city;
+  } catch (e) {
+    document.getElementById('home-content').innerHTML = '<div class="error-msg">❌ Не удалось загрузить данные.<br>Проверьте подключение к интернету.<br><br>' + e.message + '</div>';
+  }
+}
+
+function phaseEmoji(phase) {
+  const map = {'Демонтаж':'🔨','Черновые':'🧱','Инженерия':'⚡','Чистовые':'🎨','Сдача':'✅','Документы':'📄'};
+  return map[phase] || '📋';
+}
+
+function renderHome() {
+  const p = data.project;
+  const s = data.stats;
+  const works = data.recentWorks || [];
+  const budgetPct = Math.round((s.totalExpenses / s.budget) * 100);
+
+  const phases = ['Демонтаж','Черновые','Инженерия','Чистовые','Сдача'];
+  const currentIdx = phases.indexOf(p.currentPhase);
+  const phaseBadges = phases.map((ph, i) => {
+    let cls = 'badge-gray';
+    if (i < currentIdx) cls = 'badge-teal';
+    if (i === currentIdx) cls = 'badge-amber';
+    return `<span class="badge ${cls}">${phaseEmoji(ph)} ${ph}</span>`;
+  }).join('');
+
+  const workItems = works.slice(0,5).map(w => `
+    <div class="work-item">
+      <div class="work-phase">${phaseEmoji(w.phase)} ${w.phase}</div>
+      <div class="work-desc">${w.description || '—'}</div>
+      <div class="work-meta">${w.date} ${w.time} · ${w.author}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('home-content').innerHTML = `
+    <div class="section-label">Статус объекта</div>
+    <div class="status-card">
+      <div class="status-title">Этап: ${p.currentPhase}</div>
+      <div class="progress-label"><span>Прогресс</span><span>${p.progress}%</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${p.progress}%"></div></div>
+      <div class="phases">${phaseBadges}</div>
+    </div>
+
+    <div class="section-label">Бюджет и расходы</div>
+    <div class="budget-bar">
+      <div class="budget-nums">
+        <span class="budget-spent">${s.totalExpenses.toLocaleString('ru-RU')} ₽</span>
+        <span class="budget-total">из ${s.budget.toLocaleString('ru-RU')} ₽</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${budgetPct}%"></div></div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Сообщений</div>
+        <div class="stat-value stat-purple">${s.totalMessages}</div>
+        <div class="stat-sub">от прораба</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Операций</div>
+        <div class="stat-value">${s.expenseCount}</div>
+        <div class="stat-sub">в бухгалтерии</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Дней до сдачи</div>
+        <div class="stat-value stat-red">${p.daysLeft}</div>
+        <div class="stat-sub">срок ${p.deadline}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Бюджет</div>
+        <div class="stat-value stat-green">${budgetPct}%</div>
+        <div class="stat-sub">использовано</div>
+      </div>
+    </div>
+
+    <div class="section-label">Последние работы</div>
+    ${workItems || '<div class="loading">Нет данных</div>'}
+  `;
+}
+
+function renderExpenses() {
+  const s = data.stats;
+  const expenses = data.recentExpenses || [];
+  const pc = data.phaseCount || {};
+
+  const total = s.totalExpenses;
+  const budget = s.budget;
+
+  const expItems = expenses.map(e => `
+    <div class="expense-item">
+      <div>
+        <div class="expense-name">${e.supplier || e.description || '—'}</div>
+        <div class="expense-cat">${e.category || ''} · ${e.date}</div>
+      </div>
+      <div class="expense-amount">${Number(e.amount).toLocaleString('ru-RU')} ₽</div>
+    </div>
+  `).join('');
+
+  const phases = Object.entries(pc).map(([ph, cnt]) => {
+    const pct = Math.round((cnt / data.stats.totalMessages) * 100);
+    const colors = {'Демонтаж':'#534AB7','Черновые':'#1D9E75','Инженерия':'#185FA5','Чистовые':'#D4537E','Сдача':'#1D9E75'};
+    const color = colors[ph] || '#888';
+    return `
+      <div class="bar-row"><span>${phaseEmoji(ph)} ${ph}</span><span>${cnt} сообщ.</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div>
+    `;
+  }).join('');
+
+  document.getElementById('expenses-content').innerHTML = `
+    <div class="section-label">Итого расходов</div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Потрачено</div>
+        <div class="stat-value stat-purple" style="font-size:18px">${total.toLocaleString('ru-RU')} ₽</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Остаток</div>
+        <div class="stat-value stat-green" style="font-size:18px">${(budget - total).toLocaleString('ru-RU')} ₽</div>
+      </div>
+    </div>
+
+    <div class="section-label">Работы по этапам</div>
+    <div class="bar-section">${phases || 'Нет данных'}</div>
+
+    <div class="section-label">Последние операции</div>
+    ${expItems || '<div class="loading">Нет данных</div>'}
+  `;
+}
+
+function switchTab(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+loadData();
+</script>
+</body>
+</html>
