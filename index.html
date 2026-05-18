@@ -3,77 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#534AB7">
+<meta name="theme-color" content="#0E3B43">
 <title>Стройка — Московский пр-т</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F5F4FF;color:#1a1a2e;min-height:100vh;padding-bottom:70px}
-.navbar{background:#534AB7;padding:12px 16px 14px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100}
-.app-logo{width:34px;height:34px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a2a30;color:#e8f4f5;min-height:100vh;padding-bottom:80px}
+
+/* NAVBAR */
+.navbar{background:#0E3B43;padding:12px 16px 14px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(143,184,178,0.2)}
+.app-logo{width:34px;height:34px;background:#F2C572;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
 .navbar-title{font-size:15px;font-weight:600;color:#fff}
-.navbar-sub{font-size:11px;color:rgba(255,255,255,0.65)}
+.navbar-sub{font-size:11px;color:rgba(143,184,178,0.8)}
+
+/* SCREENS */
 .screen{display:none;padding:14px}
 .screen.active{display:block}
-.section-label{font-size:10px;font-weight:600;color:#534AB7;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;margin-top:16px}
+
+/* LABELS */
+.section-label{font-size:10px;font-weight:600;color:#8FB8B2;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;margin-top:16px}
 .section-label:first-child{margin-top:0}
-.status-card{background:#EEEDFE;border-radius:14px;padding:14px;margin-bottom:4px;border:1px solid #AFA9EC}
-.status-title{font-size:14px;font-weight:600;color:#26215C;margin-bottom:10px}
+
+/* STATUS CARD */
+.status-card{background:#1F6F78;border-radius:14px;padding:14px;margin-bottom:4px;border:1px solid rgba(143,184,178,0.3)}
+.status-title{font-size:14px;font-weight:600;color:#fff;margin-bottom:10px}
+
+/* BADGES */
 .badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600;display:inline-block}
-.badge-purple{background:#534AB7;color:#fff}
-.badge-teal{background:#1D9E75;color:#fff}
-.badge-amber{background:#EF9F27;color:#fff}
-.badge-gray{background:#e0e0e0;color:#666}
+.badge-purple{background:#1F6F78;color:#fff}
+.badge-teal{background:#1F6F78;color:#8FB8B2}
+.badge-amber{background:#F2C572;color:#0E3B43}
+.badge-gray{background:rgba(143,184,178,0.15);color:#8FB8B2}
+
+/* PROGRESS */
 .phases{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
-.progress-label{display:flex;justify-content:space-between;font-size:11px;color:#534AB7;margin-bottom:4px;margin-top:8px}
-.progress-bar{height:6px;background:#CECBF6;border-radius:4px;overflow:hidden}
-.progress-fill{height:100%;background:#534AB7;border-radius:4px;transition:width 0.8s ease}
+.progress-label{display:flex;justify-content:space-between;font-size:11px;color:#8FB8B2;margin-bottom:4px;margin-top:8px}
+.progress-bar{height:6px;background:rgba(143,184,178,0.2);border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;background:#F2C572;border-radius:4px;transition:width 0.8s ease}
+
+/* STAT CARDS */
 .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
-.stat-card{background:#fff;border-radius:12px;padding:12px;border:1px solid #e8e8f0}
-.stat-label{font-size:10px;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.4px}
-.stat-value{font-size:22px;font-weight:600;color:#1a1a2e}
-.stat-sub{font-size:10px;color:#aaa;margin-top:2px}
-.stat-green{color:#0F6E56}
-.stat-red{color:#993C1D}
-.stat-purple{color:#534AB7}
-.work-item{background:#fff;border-radius:12px;padding:12px;margin-bottom:8px;border:1px solid #e8e8f0;border-left:3px solid #534AB7}
-.work-phase{font-size:10px;font-weight:600;color:#534AB7;margin-bottom:4px}
-.work-desc{font-size:13px;color:#1a1a2e;line-height:1.4}
-.work-meta{font-size:10px;color:#aaa;margin-top:4px}
-.expense-item{background:#fff;border-radius:12px;padding:12px;margin-bottom:8px;border:1px solid #e8e8f0;display:flex;justify-content:space-between;align-items:center}
-.expense-name{font-size:13px;color:#1a1a2e;font-weight:500}
-.expense-cat{font-size:10px;color:#aaa;margin-top:2px}
-.expense-amount{font-size:15px;font-weight:600;color:#26215C;white-space:nowrap;margin-left:8px}
-.bar-section{background:#fff;border-radius:12px;padding:14px;margin-bottom:8px;border:1px solid #e8e8f0}
+.stat-card{background:#0E3B43;border-radius:12px;padding:12px;border:1px solid rgba(143,184,178,0.2)}
+.stat-label{font-size:10px;color:#8FB8B2;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.4px}
+.stat-value{font-size:22px;font-weight:600;color:#fff}
+.stat-sub{font-size:10px;color:rgba(143,184,178,0.6);margin-top:2px}
+.stat-green{color:#8FB8B2}
+.stat-red{color:#F2C572}
+.stat-purple{color:#F2C572}
+
+/* WORK ITEMS */
+.work-item{background:#0E3B43;border-radius:12px;padding:12px;margin-bottom:8px;border:1px solid rgba(143,184,178,0.2);border-left:3px solid #F2C572}
+.work-phase{font-size:10px;font-weight:600;color:#F2C572;margin-bottom:4px}
+.work-desc{font-size:13px;color:#e8f4f5;line-height:1.4}
+.work-meta{font-size:10px;color:rgba(143,184,178,0.6);margin-top:4px}
+
+/* EXPENSE ITEMS */
+.expense-item{background:#0E3B43;border-radius:12px;padding:12px;margin-bottom:8px;border:1px solid rgba(143,184,178,0.2);display:flex;justify-content:space-between;align-items:center}
+.expense-name{font-size:13px;color:#e8f4f5;font-weight:500}
+.expense-cat{font-size:10px;color:rgba(143,184,178,0.6);margin-top:2px}
+.expense-amount{font-size:15px;font-weight:600;color:#F2C572;white-space:nowrap;margin-left:8px}
+
+/* BAR SECTION */
+.bar-section{background:#0E3B43;border-radius:12px;padding:14px;margin-bottom:8px;border:1px solid rgba(143,184,178,0.2)}
 .bar-row{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px}
-.bar-row span:first-child{color:#666}
-.bar-row span:last-child{font-weight:600;color:#26215C}
-.bar-bg{height:5px;background:#f0f0f5;border-radius:4px;overflow:hidden;margin-bottom:10px}
+.bar-row span:first-child{color:#8FB8B2}
+.bar-row span:last-child{font-weight:600;color:#F2C572}
+.bar-bg{height:5px;background:rgba(143,184,178,0.15);border-radius:4px;overflow:hidden;margin-bottom:10px}
 .bar-fill{height:100%;border-radius:4px}
-.btn-cmd{display:flex;align-items:center;gap:12px;padding:12px 14px;background:#EEEDFE;border-radius:12px;border:1px solid #AFA9EC;cursor:pointer;margin-bottom:8px;width:100%;text-align:left;text-decoration:none}
+
+/* ENGINEER BUTTONS */
+.btn-cmd{display:flex;align-items:center;gap:12px;padding:12px 14px;background:#0E3B43;border-radius:12px;border:1px solid rgba(143,184,178,0.25);cursor:pointer;margin-bottom:8px;width:100%;text-align:left;text-decoration:none}
 .btn-cmd-icon{font-size:22px;width:36px;text-align:center;flex-shrink:0}
-.btn-cmd-title{font-size:13px;color:#26215C;font-weight:600}
-.btn-cmd-sub{font-size:10px;color:#7F77DD;margin-top:1px}
+.btn-cmd-title{font-size:13px;color:#e8f4f5;font-weight:600}
+.btn-cmd-sub{font-size:10px;color:#8FB8B2;margin-top:1px}
 .sys-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.sys-btn{display:flex;align-items:center;gap:8px;padding:12px;border-radius:12px;border:1px solid #e8e8f0;cursor:pointer;background:#fff;text-decoration:none}
+.sys-btn{display:flex;align-items:center;gap:8px;padding:12px;border-radius:12px;border:1px solid rgba(143,184,178,0.2);cursor:pointer;background:#0E3B43;text-decoration:none}
 .sys-btn-icon{font-size:20px}
-.sys-btn-name{font-size:13px;font-weight:600;color:#1a1a2e}
-.team-item{background:#fff;border-radius:12px;padding:12px;margin-bottom:8px;border:1px solid #e8e8f0;display:flex;align-items:center;justify-content:space-between}
+.sys-btn-name{font-size:13px;font-weight:600;color:#e8f4f5}
+
+/* TEAM */
+.team-item{background:#0E3B43;border-radius:12px;padding:12px;margin-bottom:8px;border:1px solid rgba(143,184,178,0.2);display:flex;align-items:center;justify-content:space-between}
 .avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0}
 .team-info{flex:1;margin-left:10px}
-.team-name{font-size:13px;font-weight:600;color:#1a1a2e}
-.team-role{font-size:10px;color:#aaa;margin-top:2px}
-.botbar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e8e8f0;display:grid;grid-template-columns:repeat(4,1fr);padding:8px 0 12px;z-index:100}
-.tab{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px}
-.tab-icon{font-size:22px}
-.tab span{font-size:9px;color:#aaa}
+.team-name{font-size:13px;font-weight:600;color:#e8f4f5}
+.team-role{font-size:10px;color:rgba(143,184,178,0.6);margin-top:2px}
+
+/* BOTTOM NAV */
+.botbar{position:fixed;bottom:0;left:0;right:0;background:#0E3B43;border-top:1px solid rgba(143,184,178,0.2);display:grid;grid-template-columns:repeat(4,1fr);padding:10px 0 20px;z-index:100}
+.tab{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px}
+.tab-icon{font-size:34px}
+.tab span{font-size:11px;color:rgba(143,184,178,0.5)}
 .tab.active .tab-icon{filter:none}
-.tab.active span{color:#534AB7;font-weight:600}
-.loading{text-align:center;padding:40px 20px;color:#aaa;font-size:14px}
-.error-msg{background:#FCEBEB;border:1px solid #F09595;border-radius:12px;padding:14px;color:#A32D2D;font-size:13px;margin-bottom:10px}
-.budget-bar{background:#EEEDFE;border-radius:12px;padding:14px;margin-bottom:4px}
+.tab.active span{color:#F2C572;font-weight:600}
+
+/* MISC */
+.loading{text-align:center;padding:40px 20px;color:rgba(143,184,178,0.5);font-size:14px}
+.error-msg{background:rgba(242,197,114,0.1);border:1px solid rgba(242,197,114,0.4);border-radius:12px;padding:14px;color:#F2C572;font-size:13px;margin-bottom:10px}
+.budget-bar{background:#1F6F78;border-radius:12px;padding:14px;margin-bottom:4px;border:1px solid rgba(143,184,178,0.2)}
 .budget-nums{display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px}
-.budget-spent{font-weight:600;color:#534AB7}
-.budget-total{color:#aaa}
+.budget-spent{font-weight:600;color:#F2C572}
+.budget-total{color:rgba(143,184,178,0.6)}
 </style>
 </head>
 <body>
@@ -122,22 +150,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <div id="screen-team" class="screen">
   <div class="section-label">Команда объекта</div>
   <div class="team-item">
-    <div class="avatar" style="background:#EEEDFE;color:#3C3489">СГ</div>
+    <div class="avatar" style="background:#1F6F78;color:#F2C572">СГ</div>
     <div class="team-info"><div class="team-name">Сергей</div><div class="team-role">Владелец · полный доступ</div></div>
-    <span class="badge badge-teal">онлайн</span>
+    <span class="badge badge-amber">онлайн</span>
   </div>
   <div class="team-item">
-    <div class="avatar" style="background:#E1F5EE;color:#085041">ВГ</div>
+    <div class="avatar" style="background:#0E3B43;color:#8FB8B2">ВГ</div>
     <div class="team-info"><div class="team-name">Владимир (прораб)</div><div class="team-role">Фото и отчёты</div></div>
-    <span class="badge badge-purple">активен</span>
+    <span class="badge badge-teal">активен</span>
   </div>
   <div class="team-item">
-    <div class="avatar" style="background:#FAEEDA;color:#633806">ИЧ</div>
+    <div class="avatar" style="background:rgba(242,197,114,0.15);color:#F2C572">ИЧ</div>
     <div class="team-info"><div class="team-name">Иван (монтажник)</div><div class="team-role">Только просмотр</div></div>
     <span class="badge badge-gray">вчера</span>
   </div>
   <div class="team-item">
-    <div class="avatar" style="background:#E6F1FB;color:#0C447C">СБ</div>
+    <div class="avatar" style="background:rgba(143,184,178,0.15);color:#8FB8B2">СБ</div>
     <div class="team-info"><div class="team-name">Сбербанк (заказчик)</div><div class="team-role">Только дашборд</div></div>
     <span class="badge badge-gray">3 дня назад</span>
   </div>
@@ -268,8 +296,8 @@ function renderExpenses() {
 
   const phases = Object.entries(pc).map(([ph, cnt]) => {
     const pct = Math.round((cnt / data.stats.totalMessages) * 100);
-    const colors = {'Демонтаж':'#534AB7','Черновые':'#1D9E75','Инженерия':'#185FA5','Чистовые':'#D4537E','Сдача':'#1D9E75'};
-    const color = colors[ph] || '#888';
+    const colors = {'Демонтаж':'#F2C572','Черновые':'#8FB8B2','Инженерия':'#1F6F78','Чистовые':'#8FB8B2','Сдача':'#F2C572'};
+    const color = colors[ph] || '#8FB8B2';
     return `
       <div class="bar-row"><span>${phaseEmoji(ph)} ${ph}</span><span>${cnt} сообщ.</span></div>
       <div class="bar-bg"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div>
