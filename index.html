@@ -9,6 +9,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Стройка">
 <link rel="manifest" href="manifest.json">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <title>Стройка — Московский пр-т</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -214,6 +215,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <script>
 const API_URL = 'https://prorab.app.n8n.cloud/webhook/dashboard';
 let data = null;
+let tgUser = null;
+
+// Инициализация Telegram Web App
+if (window.Telegram && window.Telegram.WebApp) {
+  const tg = window.Telegram.WebApp;
+  tg.ready();
+  tg.expand(); // Раскрыть на весь экран
+  tgUser = tg.initDataUnsafe?.user || null;
+
+  // Применяем цвета из Telegram
+  tg.setHeaderColor('#0E3B43');
+  tg.setBackgroundColor('#0a2a30');
+}
 
 async function loadData() {
   try {
@@ -223,6 +237,11 @@ async function loadData() {
     renderHome();
     renderExpenses();
     document.getElementById('navbar-sub').textContent = 'ВСП №' + data.project.vsp + ' · ' + data.project.city;
+    // Показываем имя из Telegram если доступно
+    if (tgUser) {
+      const name = tgUser.first_name || tgUser.username || '';
+      document.getElementById('navbar-sub').textContent += ' · ' + name;
+    }
   } catch (e) {
     document.getElementById('home-content').innerHTML = '<div class="error-msg">❌ Не удалось загрузить данные.<br>Проверьте подключение к интернету.<br><br>' + e.message + '</div>';
   }
